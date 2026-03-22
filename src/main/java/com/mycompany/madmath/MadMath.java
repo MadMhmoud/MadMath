@@ -9,15 +9,30 @@ public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "1+2*(2-1)-12.1";
+        String problem = "5+((1+2)*4)-3";
         
         ArrayList<String> list = tokenize(problem);
+        
+        ArrayList<String> rpn = toRPN(list);
+        
+        
         
         System.out.println(problem);
         
         for(int i = 0 ; i < list.size(); i++) {
             
             System.out.print(list.get(i) + " , ");
+            
+        }
+        
+        
+        System.out.println(" ");
+        
+        
+        
+        for(int i = 0 ; i < rpn.size(); i++) {
+            
+            System.out.print(rpn.get(i));
             
         }
         
@@ -129,6 +144,68 @@ public class MadMath {
         return list;
         
     }
+    
+    public static ArrayList<String> toRPN(ArrayList<String> src) {
+        
+        Deque<String> stack = new ArrayDeque<>();
+        ArrayList<String> output = new ArrayList<>();
+        
+        
+        for (int i = 0; i < src.size(); i++) {
+            
+            String token = src.get(i);
+            char c = token.charAt(0);
+            
+            if (token.isEmpty()) continue;
+            
+            if(Character.isDigit(c)) {
+                 output.add(token);
+            }
+            
+            else if (c == '(') {
+                 stack.push(token);
+            }
+            
+            else if (c == ')') {
+
+                while (!stack.isEmpty() && !stack.peek().equals("(")) {
+                     output.add(stack.pop());
+                }
+
+                stack.pop(); 
+                
+                }
+            
+            else if (isOperator(token)) {
+
+            while (!stack.isEmpty()
+                    && !stack.peek().equals("(")
+                    && precedence(stack.peek()) >= precedence(token)) {
+
+                    output.add(stack.pop());
+               }
+
+            stack.push(token);
+
+             }
+
+             
+
+                
+
+             }
+        
+                while (!stack.isEmpty()) {
+                output.add(stack.pop());
+                }
+
+            return output;
+        }
+    
+    
+    
+    
+    
     
      public static boolean isOperator(String s) {
         
