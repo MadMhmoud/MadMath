@@ -130,7 +130,19 @@ public class MadMath {
         
     }
     
+     public static boolean isOperator(String s) {
+        
+            return s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/");
     
+        }
+    
+        public static int precedence(String s) {
+        
+            if (s.equals("+") || s.equals("-")) return 1;
+            if (s.equals("*") || s.equals("/")) return 2;
+        
+            return 0;
+        }
     
     
     
