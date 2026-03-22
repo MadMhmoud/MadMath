@@ -1,19 +1,23 @@
 package com.mycompany.madmath;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 
 public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "12.3+2/33.1+11*2";
+        String problem = "1+2*(2-1)-12.1";
         
         ArrayList<String> list = tokenize(problem);
         
+        System.out.println(problem);
+        
         for(int i = 0 ; i < list.size(); i++) {
             
-            System.out.println(list.get(i));
+            System.out.print(list.get(i) + " , ");
             
         }
         
@@ -24,10 +28,11 @@ public class MadMath {
     public static ArrayList<String> tokenize(String string) {
         
         ArrayList<String> list = new ArrayList<>();
-        
         StringBuilder builder = new StringBuilder();
         
         boolean wasOperater = true;
+        
+        
         
         
         for(int i = 0 ; i < string.length() ; i++) { 
@@ -59,7 +64,7 @@ public class MadMath {
                 }
             }
             
-            else if("/*-+()".indexOf(c) != -1) { // c is an op
+            else if("/*-+".indexOf(c) != -1) { // c is an op
                 
                 if(wasOperater) { // c before was an op
                     
@@ -78,14 +83,32 @@ public class MadMath {
                 
                 else { // c before was a digit
                     
-                    list.add(builder.toString()); // flush hte number
                     
-                    builder.setLength(0);
+                    if(builder.length() > 0) {
+                        
+                        list.add(builder.toString()); // flush hte number
+                        builder.setLength(0);
+                        
+                    }
                     
                     list.add(c + "");
                     
                     
                 }
+                
+            }
+            
+            else if(c == '(' || c == ')') {
+                
+                
+                if(builder.length() > 0) {
+                    
+                    list.add(builder.toString());
+                    builder.setLength(0);
+                    
+                }
+                
+                list.add(c + "");
                 
             }
             
@@ -99,9 +122,17 @@ public class MadMath {
             
         }
         
+        if(builder.length() > 0) {
         list.add(builder.toString());
+        }
+        
         return list;
         
     }
+    
+    
+    
+    
+    
     
 }
