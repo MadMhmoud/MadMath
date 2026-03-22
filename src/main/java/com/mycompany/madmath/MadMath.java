@@ -9,34 +9,27 @@ public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "5+((1+2)*4)-3";
+        String problem = "2--2+((9-1)+1)*2";
         
         ArrayList<String> list = tokenize(problem);
         
         ArrayList<String> rpn = toRPN(list);
         
-        
-        
-        System.out.println(problem);
-        
-        for(int i = 0 ; i < list.size(); i++) {
-            
-            System.out.print(list.get(i) + " , ");
-            
+        for(int i = 0 ; i<list.size() ; i++) {
+            System.out.print(list.get(i ) + " ");
         }
-        
         
         System.out.println(" ");
         
-        
-        
-        for(int i = 0 ; i < rpn.size(); i++) {
-            
-            System.out.print(rpn.get(i));
-            
+        for(int i = 0 ; i<rpn.size() ; i++) {
+            System.out.print(rpn.get(i ) + " ");
         }
+        System.out.println(" ");
+        
+        System.out.println(solveRPN(rpn));
         
         
+       
     }
     
     
@@ -86,7 +79,9 @@ public class MadMath {
                     if(c == '-' && builder.length() == 0) {
                         
                         builder.setLength(0);
-                        builder.append('c');
+                        builder.append(c);
+                        
+                        wasOperater = false;
                         
                         continue;
                         
@@ -103,8 +98,9 @@ public class MadMath {
                         
                         list.add(builder.toString()); // flush hte number
                         builder.setLength(0);
-                        
                     }
+                    
+                    wasOperater = true;
                     
                     list.add(c + "");
                     
@@ -158,7 +154,7 @@ public class MadMath {
             
             if (token.isEmpty()) continue;
             
-            if(Character.isDigit(c)) {
+            if(Character.isDigit(c) || token.length() > 1) {
                  output.add(token);
             }
             
@@ -202,8 +198,63 @@ public class MadMath {
             return output;
         }
     
-    
-    
+    public static String solveRPN(ArrayList<String> src) {
+        
+        Deque<String> stack = new ArrayDeque<>();
+        
+        for(int i = 0 ; i < src.size() ; i++) {
+            
+            String token = src.get(i);
+            char c = token.charAt(0);
+            
+            
+            if(Character.isDigit(c) || token.length() > 1) {
+                stack.push(token);
+                continue;
+            }
+            
+            
+            if(c == '+') {
+                double a = Double.parseDouble(stack.pop());
+                double b = Double.parseDouble(stack.pop());
+                
+                double r = a + b;
+                stack.push(String.valueOf(r));
+                continue;
+            }
+            
+            if(c == '-') {
+                double a = Double.parseDouble(stack.pop());
+                double b = Double.parseDouble(stack.pop());
+                
+                
+                double r = b - a;
+                stack.push(String.valueOf(r));
+                continue;
+            }
+            
+            if(c == '*') {
+                double a = Double.parseDouble(stack.pop());
+                double b = Double.parseDouble(stack.pop());
+                
+                double r = a * b;
+                stack.push(String.valueOf(r));
+                continue;
+            }
+            if(c == '/') {
+                double a = Double.parseDouble(stack.pop());
+                double b = Double.parseDouble(stack.pop());
+                
+                double r = b / a;
+                stack.push(String.valueOf(r));
+                continue;
+            }
+            
+            
+        }
+        
+        return stack.peek();
+    }
     
     
     
