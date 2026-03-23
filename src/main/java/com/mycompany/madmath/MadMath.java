@@ -28,7 +28,6 @@ public class MadMath {
         
         System.out.println(solveRPN(rpn));
         
-        
        
     }
     
@@ -260,6 +259,16 @@ public class MadMath {
         return stack.peek();
     }
     
+    
+    public static String solveString(String src) {
+        
+        ArrayList<String> tokenized = tokenize(src);
+        ArrayList<String> rpn = toRPN(tokenized);
+        
+        String result = solveRPN(rpn);
+        
+        return result;
+    }
     
     
      public static boolean isOperator(String s) {
