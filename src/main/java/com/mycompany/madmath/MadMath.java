@@ -9,25 +9,9 @@ public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "5^2+3-(-3*2)";
+        String problem = "51.12.1";
         
-        ArrayList<String> list = tokenize(problem);
-        
-        ArrayList<String> rpn = toRPN(list);
-        
-        for(int i = 0 ; i<list.size() ; i++) {
-            System.out.print(list.get(i ) + " ");
-        }
-        
-        System.out.println(" ");
-        
-        for(int i = 0 ; i<rpn.size() ; i++) {
-            System.out.print(rpn.get(i ) + " ");
-        }
-        System.out.println(" ");
-        
-        System.out.println(solveRPN(rpn));
-        
+        System.out.println(checkNum(problem));
        
     }
     
@@ -259,7 +243,6 @@ public class MadMath {
         return stack.peek();
     }
     
-    
     public static String solveString(String src) {
         
         ArrayList<String> tokenized = tokenize(src);
@@ -271,13 +254,13 @@ public class MadMath {
     }
     
     
-     public static boolean isOperator(String s) {
+    public static boolean isOperator(String s) {
         
             return s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/") | s.equals("^");
     
         }
     
-        public static int precedence(String s) {
+    public static int precedence(String s) {
         
             if (s.equals("+") || s.equals("-")) return 1;
             if (s.equals("*") || s.equals("/")) return 2;
@@ -286,7 +269,27 @@ public class MadMath {
             return 0;
         }
     
-    
+    public static boolean checkNum(String src) {
+        
+        int count = 0;
+        
+        for(int i = 0 ; src.length() > i ; i++) {
+            
+            if(src.charAt(i) == '.') {
+                count++;
+            }
+            
+        }
+        
+        if(count > 1) {
+            
+            return false;
+        }
+        else {
+            return  true;
+        }
+        
+    }
     
     
 }
