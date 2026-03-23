@@ -9,7 +9,7 @@ public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "2--2+((9-1)+1)*2";
+        String problem = "5^2+3-(-3*2)";
         
         ArrayList<String> list = tokenize(problem);
         
@@ -72,7 +72,7 @@ public class MadMath {
                 }
             }
             
-            else if("/*-+".indexOf(c) != -1) { // c is an op
+            else if("/*-+^".indexOf(c) != -1) { // c is an op
                 
                 if(wasOperater) { // c before was an op
                     
@@ -185,10 +185,6 @@ public class MadMath {
 
              }
 
-             
-
-                
-
              }
         
                 while (!stack.isEmpty()) {
@@ -249,6 +245,14 @@ public class MadMath {
                 stack.push(String.valueOf(r));
                 continue;
             }
+            if(c == '^') {
+                double a = Double.parseDouble(stack.pop());
+                double b = Double.parseDouble(stack.pop());
+                
+                double r = Math.pow(b, a);
+                stack.push(String.valueOf(r));
+                continue;
+            }
             
             
         }
@@ -260,7 +264,7 @@ public class MadMath {
     
      public static boolean isOperator(String s) {
         
-            return s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/");
+            return s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/") | s.equals("^");
     
         }
     
@@ -268,6 +272,7 @@ public class MadMath {
         
             if (s.equals("+") || s.equals("-")) return 1;
             if (s.equals("*") || s.equals("/")) return 2;
+            if (s.equals("^")) return 3;
         
             return 0;
         }
