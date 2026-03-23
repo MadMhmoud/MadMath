@@ -9,9 +9,9 @@ public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "51.12.1";
+        String problem = "-5";
         
-        System.out.println(checkNum(problem));
+        System.out.println(verfiyProblem(problem));
        
     }
     
@@ -251,6 +251,82 @@ public class MadMath {
         String result = solveRPN(rpn);
         
         return result;
+    }
+    
+    public static boolean verfiyProblem(String src) {
+        
+        StringBuilder builder = new StringBuilder();
+        Deque<Character> stack = new ArrayDeque<>();
+        
+        
+        for(int i = 0 ; i < src.length() ; i++) {
+            
+            char c = src.charAt(i);
+            
+            
+            if(Character.isDigit(c) || c == '.' || (c == '-' && builder.length() == 0)) {
+                
+                builder.append(c);
+                
+            }
+            
+            else if(isOperator(c + "")) {
+                
+                if (i == 0) {
+                    
+                    System.out.println("starts with op");
+                    return false;
+                }
+                
+                if(i == src.length() - 1) {
+                    return false;
+                }
+                
+                if(!checkNum(builder.toString())) {
+                    System.out.println("wrong number input");
+                    return false;
+                }
+                else {
+                    builder.setLength(0);
+                }
+                
+                if(isOperator(src.charAt(i + 1) + "")) {
+                    System.out.println("two op next");
+                    return false;
+                    
+                }
+                
+            }
+            
+            else if(c == '(') {
+                
+                stack.push(c);
+            }
+            
+            else if(c == ')') {
+                
+                if(stack.pop() == '(') {
+                    continue;
+                }
+                else {
+                    System.out.println("wrong parentthes1");
+                    return false;
+                }
+                
+            }
+            
+            
+        }
+        
+        if(stack.isEmpty()) {
+            return true;
+        }
+        else {
+            System.out.println("wrong parentthes");
+            return false;
+        }
+        
+        
     }
     
     
