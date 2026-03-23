@@ -9,10 +9,6 @@ public class MadMath {
 
     public static void main(String[] args) {
         
-        String problem = "-5";
-        
-        System.out.println(verfiyProblem(problem));
-       
     }
     
     
@@ -273,8 +269,6 @@ public class MadMath {
             else if(isOperator(c + "")) {
                 
                 if (i == 0) {
-                    
-                    System.out.println("starts with op");
                     return false;
                 }
                 
@@ -283,7 +277,6 @@ public class MadMath {
                 }
                 
                 if(!checkNum(builder.toString())) {
-                    System.out.println("wrong number input");
                     return false;
                 }
                 else {
@@ -291,7 +284,6 @@ public class MadMath {
                 }
                 
                 if(isOperator(src.charAt(i + 1) + "")) {
-                    System.out.println("two op next");
                     return false;
                     
                 }
@@ -309,7 +301,6 @@ public class MadMath {
                     continue;
                 }
                 else {
-                    System.out.println("wrong parentthes1");
                     return false;
                 }
                 
@@ -322,10 +313,25 @@ public class MadMath {
             return true;
         }
         else {
-            System.out.println("wrong parentthes");
             return false;
         }
         
+        
+    }
+    
+    public static String solveStringSafe(String src) {
+        
+        if(verfiyProblem(src)) {
+            
+            ArrayList<String> tokenized = tokenize(src);
+            ArrayList<String> rpn = toRPN(tokenized);
+        
+            String result = solveRPN(rpn);
+        
+            return result;
+        }
+        
+        return null;
         
     }
     
